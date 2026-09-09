@@ -16,22 +16,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Note App",
-  description: "Created by Oleksandra",
+  title: "NoteHub",
+  description: "NoteHub notes app",
 };
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
       <TanStackProvider>
        <Header/>
-        <main>{children}</main>
-        <Footer/>
+        {children}
+          <Footer />
+        {modal}
           </TanStackProvider>
       </body>
     </html>

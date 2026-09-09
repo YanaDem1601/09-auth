@@ -6,7 +6,7 @@ import { createNote } from "@/lib/api";
 
 interface NoteFormProps {
   handleCancelNote: () => void;
-  queryKey: [string, string, number];
+  queryKey: readonly unknown[];
 }
 
 interface FormValues {
@@ -20,8 +20,7 @@ const Schema = Yup.object().shape({
     .required("Title is required")
     .min(3, "Title must be at least 3 characters")
     .max(50, "Title is too long"),
-  content: Yup.string()
-    .max(500, "Content is too long"),
+  content: Yup.string().max(500, "Content is too long"),
   tag: Yup.string()
     .required("Tag is required")
     .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"], "Invalid tag value"),

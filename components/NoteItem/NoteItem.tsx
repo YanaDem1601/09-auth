@@ -1,5 +1,6 @@
 import { Note } from "@/types/note";
 import Link from "next/link";
+import css from "./NoteItem.module.css";
 
 type Props = {
   item: Note;
@@ -7,8 +8,8 @@ type Props = {
 
 const NoteItem = ({ item }: Props) => {
   return (
-     <li>
-      <Link href={`/notes/${item.id}`}>{item.title}</Link>
+     <li className={css.item}>
+      <Link href={`/notes/${item.id}`} className={css.link}>{item.title}</Link>
     </li>
   );
 }

@@ -1,10 +1,9 @@
 import HomePage from "@/components/Home/Home"
 
-const Home = () => {
+export default function Home() {
   return (
     <main>
       <HomePage />
     </main>
   );
 }
-export default Home

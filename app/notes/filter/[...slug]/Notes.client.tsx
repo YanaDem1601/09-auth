@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, type MouseEventHandler } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useDebouncedCallback } from "use-debounce";
@@ -8,29 +9,36 @@ import Pagination from "@/components/Pagination/Pagination";
 import NoteList from "@/components/NoteList/NoteList";
 import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
-import css from "../notes/Notes.module.css"
+import css from "./Notes.module.css";
 
+type Props = {
+  tag: string | null;
+};
 
-function NotesClient() {
+export default function NotesClient({ tag }: Props) {
   const [debouncedValue, setDebouncedValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const queryKey: [string, string, number] = ["notes", debouncedValue, currentPage];
+  const queryKey: readonly unknown[] = ["notes", tag ?? "all", debouncedValue, currentPage];
 
   const debouncedSearch = useDebouncedCallback((value: string) => {
     setDebouncedValue(value);
     setCurrentPage(1);
   }, 1000);
 
-  const handleFilterChange = (query: string) => {
-    debouncedSearch(query);
-  };
   const { data, isSuccess } = useQuery({
     queryKey,
-    queryFn: () => fetchNotes(currentPage, debouncedValue),
+    queryFn: () =>
+      fetchNotes({
+        page: currentPage,
+        search: debouncedValue,
+        tag: tag ?? undefined,
+      }),
     placeholderData: (prev) => prev,
   });
+
+  const totalPages = data?.totalPages ?? 0;
 
   const handleCreateClick: MouseEventHandler<HTMLButtonElement> = () => {
     setIsModalOpen(true);
@@ -40,12 +48,10 @@ function NotesClient() {
     setIsModalOpen(false);
   };
 
-  const totalPages = data?.totalPages ?? 0;
-
   return (
-    <div className={css.app} >
+    <div className={css.app}>
       <div className={css.toolbar}>
-        <SearchBox onSearch={handleFilterChange} />
+        <SearchBox onSearch={debouncedSearch} />
 
         {totalPages > 1 && (
           <Pagination
@@ -55,7 +61,7 @@ function NotesClient() {
           />
         )}
 
-        <button className={css.button} onClick={handleCreateClick}>
+        <button className={css.button} onClick={handleCreateClick} type="button">
           Create note +
         </button>
       </div>
@@ -70,5 +76,3 @@ function NotesClient() {
     </div>
   );
 }
-
-export default NotesClient;

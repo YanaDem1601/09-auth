@@ -1,6 +1,5 @@
-import css from './Header.module.css';
-import Link from 'next/link';
-
+import css from "./Header.module.css";
+import Link from "next/link";
 
 const Header = () => {
   return(
@@ -10,11 +9,15 @@ const Header = () => {
       </Link>
       <nav aria-label="Main Navigation">
         <ul className={css.navigation}>
-          <li>
-            <Link href='/'>Home</Link>
+          <li className={css.navigationItem}>
+            <Link href="/" className={css.navigationLink}>
+              Home
+            </Link>
           </li>
-           <li>
-            <Link href='/notes'>Notes</Link>
+           <li className={css.navigationItem}>
+            <Link href="/notes/filter/all" className={css.navigationLink}>
+              Notes
+            </Link>
           </li>
         </ul>
       </nav>

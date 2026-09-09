@@ -21,17 +21,30 @@ export interface FetchNotesResponse {
   totalPages: number;
 }
 
-export const fetchNotes = async (
-  page: number,
-  search: string
-): Promise<FetchNotesResponse> => {
+type FetchNotesArgs = {
+  page: number;
+  search: string;
+  tag?: string;
+};
+
+export const fetchNotes = async ({
+  page,
+  search,
+  tag,
+}: FetchNotesArgs): Promise<FetchNotesResponse> => {
   const { data } = await api.get<FetchNotesResponse>('/notes', {
     params: {
       page,
       search,
+      ...(tag ? { tag } : {}),
     },
   });
 
+  return data;
+};
+
+export const fetchNoteById = async (id: string): Promise<Note> => {
+  const { data } = await api.get<Note>(`/notes/${id}`);
   return data;
 };
 
@@ -42,10 +55,5 @@ export const createNote = async (note: NewNote): Promise<Note> => {
 
 export const deleteNote = async (id: string): Promise<Note> => {
   const { data } = await api.delete<Note>(`/notes/${id}`);
-  return data;
-};
-
-export const fetchNoteById = async (id: string): Promise<Note> => {
-  const { data } = await api.get<Note>(`/notes/${id}`);
   return data;
 };
