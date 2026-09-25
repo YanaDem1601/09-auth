@@ -8,10 +8,10 @@ type Props = {
 
 const NoteItem = ({ item }: Props) => {
   return (
-     <li className={css.item}>
+    <li className={css.item}>
       <Link href={`/notes/${item.id}`} className={css.link}>{item.title}</Link>
     </li>
   );
-}
+};
 
 export default NoteItem;

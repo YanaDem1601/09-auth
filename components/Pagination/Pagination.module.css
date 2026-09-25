@@ -44,6 +44,6 @@
 }
 
 .active a {
-  color: #fff !important;
+  color: #fff;
   font-weight: 500;
 }
