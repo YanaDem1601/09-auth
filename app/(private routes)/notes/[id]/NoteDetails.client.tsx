@@ -1,13 +1,17 @@
 "use client";
-import { fetchNoteById } from "@/lib/api";
+import { fetchNoteById } from "@/lib/api/clientApi";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import css from '@/components/NoteDetails/NoteDetails.module.css'
+import css from "@/components/NoteDetails/NoteDetails.module.css";
 
 export default function NoteDetailsClient() {
- const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
 
-  const { data: note, isLoading, error } = useQuery({
+  const {
+    data: note,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
@@ -24,9 +28,9 @@ export default function NoteDetailsClient() {
       <div className={css.item}>
         <div className={css.header}>
           <h2>{note.title}</h2>
-	      </div>
+        </div>
         <p className={css.tag}>{note.tag}</p>
-	      <p className={css.content}>{note.content}</p>
+        <p className={css.content}>{note.content}</p>
         <p className={css.date}>{createdDate}</p>
       </div>
     </div>
